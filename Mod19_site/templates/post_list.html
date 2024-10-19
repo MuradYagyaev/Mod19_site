@@ -16,7 +16,7 @@
         {% endfor %}
     </ul>
     <div class="pagination">
-        <nav>
+        <nav class="list-pages">
                 Страницы:
                 {% if page_posts.has_previous %}
                     <a href="?page={{ page_posts.previous_page_number }}&per_page={{ per_page }}">Previous |</a>
