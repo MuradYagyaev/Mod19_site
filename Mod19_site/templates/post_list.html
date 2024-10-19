@@ -1,0 +1,47 @@
+{% extends 'index.html' %}
+
+{% block pagename %}
+    Мой пейджинатор!
+{% endblock %}
+
+{% block content %}
+    <ul>
+        {% for post in page_posts %}
+            <li>
+                {{ post.title }} ({{ post.created_at }})
+                <p>{{ post.content }}</p>
+            </li>
+            {% empty %}
+                <p>Нет постов.</p>
+        {% endfor %}
+    </ul>
+    <div class="pagination">
+        <nav>
+                Страницы:
+                {% if page_posts.has_previous %}
+                    <a href="?page={{ page_posts.previous_page_number }}&per_page={{ per_page }}">Previous |</a>
+                {% endif %}
+                {% for p in page_posts.paginator.page_range %}
+                    {% if page_posts.number == p %}
+                        {{ p }} |
+                    {% else %}
+                        <a href="?page={{ p }}&per_page={{ per_page }}">{{ p }} |</a>
+                    {% endif %}
+                {% endfor %}
+                {% if page_posts.has_next %}
+                    <a href="?page={{ page_posts.next_page_number }}&per_page={{ per_page }}">Next |</a>
+                {% endif %}
+        </nav>
+        <form method="get">
+            <label for="per_page">Постов на страницу</label>
+            <select name="per_page" id="per_page">
+                {% for i in range_list %}
+                    <option value="{{ i }}"
+                    {% if i == per_page %} selected {% endif %}
+                    >{{ i }}</option>
+                {% endfor %}
+            </select>
+            <button type="submit"> Ok </button>
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,54 @@
+def post_list(request):
+    per_page = 5
+    if request.method == 'POST':
+        per_page = request.POST.get('per_page')
+        # info.update({'per_page': per_page})
+        # return render(request, 'post_list.html', info)
+    range_list = [x for x in range(1, 11)]
+    posts = Post.objects.all().order_by('-created_at')
+    paginator = Paginator(posts, per_page=per_page)
+    page_number = request.GET.get('page')
+    page_posts = paginator.get_page(page_number)
+    info = {
+        'page_posts': page_posts,
+        'per_page': per_page,
+        'range_list': range_list,
+    }
+    return render(request, 'post_list.html', info)
+
+
+
+<select name="contractorName" class="form-control" id="id_contractorName">
+    <option value="" selected=""></option>
+    {% for contractor in contractors %}
+        <option value="{{ contractor }}">{{ contractor }}</option>
+    {% endfor %}
+    </select>
+
+
+                <form method="get">
+                    <label for="perpage">Постов на страницу</label>
+                    <select name="per_page" id="perpage">
+                        <option value="" selected=""></option>
+                        {% for i in range_list %}
+                            {% if i == per_page %}
+                                <option value="{{ i }}" selected>{{ i }}</option>
+                            {% else %}
+                                <option value="{{ i }}">{{ i }}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                    <button type="submit"> Ok </button>
+                </form>
+
+
+                <form method="get">
+                    <label for="perpage">Постов на страницу</label>
+                    <select name="per_page" id="perpage">
+                        <option value="{{ per_page }}">{{ per_page }}</option>
+                        {% for i in range_list %}
+                            <option value="{{ i }}">{{ i }} </option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit"> Ok </button>
+                </form>

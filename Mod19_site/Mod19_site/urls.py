@@ -17,9 +17,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
-# from task1.views import update_db
+from task1.views import post_list
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('update_db/', update_db),
+    path('', post_list),
 ]

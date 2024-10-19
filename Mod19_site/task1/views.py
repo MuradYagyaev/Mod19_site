@@ -1,17 +1,22 @@
 from django.shortcuts import render
-# import sqlite3
+from django.core.paginator import Paginator
+from .models import Post
 
-from task1.models import Post
+range_list = [str(x) for x in range(3, 11)]
 
 
 # Create your views here.
-# def update_db(request):
-#     path = 'sqlite.db'
-#     connection = sqlite3.connect(path)
-#     cursor = connection.cursor()
-#     cursor.execute('SELECT * FROM demo')
-#     posts = cursor.fetchall()
-#     for post in posts:
-#         Post.objects.create(title=post[1], hint=post[2])
-#     connection.commit()
-#     connection.close()
+def post_list(request):
+    posts = Post.objects.all().order_by('-created_at')
+    perpage = request.GET.get('per_page')
+    if perpage is None:
+        perpage = 5
+    page_number = request.GET.get('page')
+    paginator = Paginator(posts, per_page=perpage)
+    page_posts = paginator.get_page(page_number)
+    info = {
+        'page_posts': page_posts,
+        'per_page': perpage,
+        'range_list': range_list,
+    }
+    return render(request, 'post_list.html', info)
