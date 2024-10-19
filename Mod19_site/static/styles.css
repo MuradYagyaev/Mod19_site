@@ -1,11 +1,11 @@
 html, body {
-	font-family: 'Arial';
-	background-color: #94a26b;
+	font-family: 'Times New Roman';
+	background-color: #d4f2ab;
 	margin: 0;
 	padding: 0;
 	height: 100%;
 	width: 100%;
-	color: #94a26b;
+	color: #444;
 }
 
 a {
